@@ -6,7 +6,7 @@ var fs = require('fs');
  *
  * Object n + 1's properties will overwrite object n's.
  */
-module.exports.extend = (function (/* args, */) {
+module.exports.extend = (function () {
   function ok(obj) {
     return typeof obj === "object" && obj !== null;
   }
