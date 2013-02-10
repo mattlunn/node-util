@@ -31,17 +31,17 @@ module.exports.extend = (function () {
 }());
 
 /**
- * Returns a function which will generate strings of  "length" characters long 
+ * Returns a function which will generate strings of  "length" characters long
  * using only characters in "alphabet"
  *
- * @param alphabet: Either an array of substrings, or a string which will be 
+ * @param alphabet: Either an array of substrings, or a string which will be
  *        split into individual characters
  * @param length: The length of the strings generated. If alphabet is an array
  *        and each element is a single character, or a string is provided as the
  *        alphabet, the generated string will be exactly this length. If array
  *        elements contain more than 1 character, the string will be at least
  *        this length.
- * @return A function which accepts no arguments, and returns a generated 
+ * @return A function which accepts no arguments, and returns a generated
  *         string each time it is called.
  */
 module.exports.generator = function (alphabet, length) {
@@ -88,4 +88,16 @@ module.exports.extract = function (obj, keys) {
   });
 
   return ret;
+}
+
+/**
+ * Turns blah_blah_blah into blahBlahBlah
+ *
+ * @param str: blah_blah_blah
+ * @return blahBlahBlah
+ */
+module.exports.camelize = function (str) {
+  return str.replace(/_([a-z])/g, function (_, c) {
+    return c.toUpperCase();
+  });
 }
