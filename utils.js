@@ -7,20 +7,33 @@ var fs = require('fs');
  * Object n + 1's properties will overwrite object n's.
  */
 module.exports.extend = (function () {
-  function ok(obj) {
+  function isObject(obj) {
     return typeof obj === "object" && obj !== null;
   }
 
-  return function (/* objects */) {
+  return function extend(/* objects, deep */) {
     var target = arguments[0];
+    var limit = arguments.length - 1;
+    var deep = arguments[limit];
 
-    if (ok(target)) {
-      for (var i=1;i<arguments.length;i++) {
+    if (typeof deep !== "boolean") {
+      limit++;
+      deep = false;
+    }
+
+    if (isObject(target)) {
+      for (var i=1;i<limit;i++) {
         var obj = arguments[i];
 
-        if (ok(obj)) {
+        if (isObject(obj)) {
           Object.keys(obj).forEach(function (key) {
-            target[key] = obj[key];
+            var curr = obj[key];
+
+            if (deep && isObject(curr) && isObject(target[key])) {
+              target[key] = extend({}, target[key], curr, true);
+            } else {
+              target[key] = curr;
+            }
           });
         }
       }
