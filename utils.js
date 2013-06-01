@@ -67,7 +67,7 @@ module.exports.generator = function (alphabet, length) {
 
     return str;
   }
-}
+};
 
 /**
  * Reads in the contents of the file at the specified path, and parses it as
@@ -84,7 +84,7 @@ module.exports.readJsonFileSync = function (path) {
   }
 
   return JSON.parse(fs.readFileSync(path));
-}
+};
 
 /**
  * Creates a new object whose only properties are the "keys" properties in "obj"
@@ -97,11 +97,13 @@ module.exports.extract = function (obj, keys) {
   var ret = {};
 
   keys.forEach(function (key) {
-    ret[key] = obj[key];
+    if (obj.hasOwnProperty(key)) {
+      ret[key] = obj[key];
+    }
   });
 
   return ret;
-}
+};
 
 /**
  * Turns blah_blah_blah into blahBlahBlah
@@ -113,4 +115,16 @@ module.exports.camelize = function (str) {
   return str.replace(/_([a-z])/g, function (_, c) {
     return c.toUpperCase();
   });
-}
+};
+
+/**
+ * Turns blahBlahBlah into blah_blah_blah
+ *
+ * @param str: blahBlahBlah
+ * @return blah_blah_blah
+ */
+module.exports.underscore = function (str) {
+  return str.replace(/([a-z])([A-Z])/g, function (_, a, b) {
+    return a + '_' + b.toLowerCase();
+  });
+};
